@@ -6,8 +6,8 @@ import { RiShoppingBag4Fill } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <header className="bg-red-400">
-      <nav className="max-w[1300px] px-12 mx-auto h-[14vh] flex items-center justify-between">
+    <header className="bg-white fixed top-0 left-0 right-0">
+      <nav className="max-w-[1300px] px-12 mx-auto h-[14vh] flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex w-15 h-15 bg-zinc-100 rounded-full">
           <img src={Logo} className="w-full h-full object-contain p-2" />
@@ -16,27 +16,33 @@ const Navbar = () => {
         {/* { Nav Actions } */}
         <div className="flex items-center gap-x-5">
           {/* { search bar} */}
-          <div className="flex items-center p-1 rounded-full border-2 border-blue-600" >
+          <div className="flex items-center p-1 rounded-full border-2 border-blue-600 ">
             <input
               type="text"
               name="search"
               id="search"
               placeholder="search..."
               autoComplete="off"
-              className=" h-[5vh] pl-4 "
+              className=" h-[5vh] pl-4 flex-1 focus:outline-none "
             />
-            <button className= " flex justify-center items-center w-8 h-8 rounded-full bg-blue-600 text-white">
+            <button className=" flex justify-center items-center w-8 h-8 rounded-full bg-blue-600 text-white">
               <IoSearch />
             </button>
           </div>
 
           {/* {Icons} */}
 
-          <button className="text-[1.6rem] text-zinc-800">
+          <button className="text-[1.6rem] text-zinc-800 relative">
             <GoHeartFill />
+            <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
+              1
+            </span>
           </button>
-          <button className="text-[1.6rem] text-zinc-800">
+          <button className="text-[1.6rem] text-zinc-800 relative">
             <RiShoppingBag4Fill />
+            <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
+              1
+            </span>
           </button>
         </div>
       </nav>
