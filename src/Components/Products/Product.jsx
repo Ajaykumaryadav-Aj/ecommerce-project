@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import ProductList from "./ProductList";
+import { GoHeartFill } from "react-icons/go";
+
 const Product = () => {
   const categories = [
     "All",
@@ -9,7 +12,61 @@ const Product = () => {
     "New Arrival",
     "On Sale",
   ];
+
   const [activeTab, setActiveTab] = useState("All");
+
+  const renderProducts = ProductList.map((product) => {
+    return (
+      // Card
+      <div className="bg-zinc-100 p-5 border-1 border-zinc-300 rounded-lg">
+        <div className="flex justify-between items-center">
+          <button className="text-3xl text-zinc-300">
+            <GoHeartFill />
+          </button>
+
+          <div>
+            {(product.onSale || product.newArrival) && (
+              <span
+                className={`px-3 py-1 text-white ${
+                  product.onSale ? "bg-red-600" : "bg-green-600"
+                }`}
+              >
+                {product.onSale ? "Sale" : "New"}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Product Image */}
+        <div className=" w-full h-[30vh]">
+          <img src={product.image} />
+        </div>
+
+        {/* // Product Details */}
+        <div className="text-center mt-3">
+          <h3 className="text-[1.3rem] font-semibold">{product.name}</h3>
+          <div className="mt-1 mb-4">
+            {product.onSale && (
+              <span className="text-zinc-600 font-semibold text-lg line-through mr-7">
+                ${product.oldPrice.toFixed(2)}
+              </span>
+            )}
+            <span className="text-red-600 font-semibold text-lg">
+              ${product.price.toFixed(2)}
+            </span>
+          </div>
+          <button className="bg-blue-600 text-white text-lg py-3 w-full rounded-lg cursor-pointer active:bg-blue-800">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    );
+  });
+
+  // method for change Tab
+  function changeTab(category) {
+    setActiveTab(category);
+  }
   return (
     <section className="max-w-[1300px] mx-auto px-12 py-10">
       {/* Tabs */}
@@ -18,14 +75,19 @@ const Product = () => {
           return (
             <button
               key={category}
-              className={` py-2 px-8 rounded-full text-lg
+              className={` py-2 px-8 rounded-full text-lg cursor-pointer
           ${activeTab === category ? "bg-blue-600 text-white" : "bg-zinc-100"}`}
+              onClick={() => setActiveTab(category)}
+              // onClick={ ()=>changeTab(category)}
             >
               {category}
             </button>
           );
         })}
       </div>
+
+      {/* Product Listing */}
+      <div className="grid grid-cols-4 gap-9 mt-10">{renderProducts}</div>
     </section>
   );
 };
