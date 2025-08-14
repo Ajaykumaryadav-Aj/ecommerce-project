@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import ProductList from "./ProductList";
 import { GoHeartFill } from "react-icons/go";
 
-const Product = () => {
+const Product = ({ searchTerm }) => {
   const categories = [
     "All",
     "Mens",
-    "Womans",
+    "Womens",
     "Kids",
     "New Arrival",
     "On Sale",
@@ -15,7 +15,21 @@ const Product = () => {
 
   const [activeTab, setActiveTab] = useState("All");
 
-  const renderProducts = ProductList.map((product) => {
+  const filteredItems = ProductList.filter((item) => {
+    const matchesCategory =
+      activeTab === "All" ||
+      (activeTab === "New Arrival" && item.newArrival) ||
+      (activeTab === "On Sale" && item.onSale) ||
+      activeTab === item.category;
+
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesCategory, matchesSearch;
+  });
+
+  const renderProducts = filteredItems.map((product) => {
     return (
       // Card
       <div className="bg-zinc-100 p-5 border-1 border-zinc-300 rounded-lg">
@@ -68,7 +82,10 @@ const Product = () => {
     setActiveTab(category);
   }
   return (
-    <section className="max-w-[1300px] mx-auto px-12 py-10">
+    <section
+      id="product-section"
+      className="max-w-[1300px] mx-auto px-12 py-10"
+    >
       {/* Tabs */}
       <div className="flex justify-center items-center mt-8 gap-3">
         {categories.map((category) => {
@@ -87,7 +104,10 @@ const Product = () => {
       </div>
 
       {/* Product Listing */}
-      <div className="grid grid-cols-4 gap-9 mt-10">{renderProducts}</div>
+      <div className="grid grid-cols-4 gap-9 mt-10">
+      { filteredItems.length === 0 ? 
+       <p className="text-center col-span-4 text-zinc-800 text-lg">No product found</p> : renderProducts}
+        </div>
     </section>
   );
 };

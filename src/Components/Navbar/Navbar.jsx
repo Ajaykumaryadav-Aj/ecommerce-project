@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../assets/logo.png";
 import { IoSearch } from "react-icons/io5";
 import { GoHeartFill } from "react-icons/go";
 import { RiShoppingBag4Fill } from "react-icons/ri";
 
-const Navbar = () => {
+const Navbar = ({ handleScroll, setSearchTerm , isScrolled}) => {
+
+
+
   return (
-    <header className="bg-white fixed top-0 left-0 right-0">
+    <header className={`bg-white fixed top-0 left-0 right-0 z-30 ${isScrolled? 'shadow-lg' : ''}`}>
       <nav className="max-w-[1300px] px-12 mx-auto h-[14vh] flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex w-15 h-15 bg-zinc-100 rounded-full">
@@ -16,7 +19,11 @@ const Navbar = () => {
         {/* { Nav Actions } */}
         <div className="flex items-center gap-x-5">
           {/* { search bar} */}
-          <div className="flex items-center p-1 rounded-full border-2 border-blue-600 ">
+          <div
+            onFocus={handleScroll}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex items-center p-1 rounded-full border-2 border-blue-600 "
+          >
             <input
               type="text"
               name="search"
