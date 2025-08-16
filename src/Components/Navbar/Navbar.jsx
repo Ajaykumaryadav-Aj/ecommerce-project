@@ -4,7 +4,7 @@ import { IoSearch } from "react-icons/io5";
 import { GoHeartFill } from "react-icons/go";
 import { RiShoppingBag4Fill } from "react-icons/ri";
 
-const Navbar = ({ handleScroll, setSearchTerm , isScrolled}) => {
+const Navbar = ({ handleScroll, setSearchTerm , isScrolled, handlePanel}) => {
 
 
 
@@ -39,13 +39,13 @@ const Navbar = ({ handleScroll, setSearchTerm , isScrolled}) => {
 
           {/* {Icons} */}
 
-          <button className="text-[1.6rem] text-zinc-800 relative">
+          <button className="text-[1.6rem] text-zinc-800 relative cursor-pointer" onClick={()=>handlePanel('wishlist')}>
             <GoHeartFill />
             <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
               1
             </span>
           </button>
-          <button className="text-[1.6rem] text-zinc-800 relative">
+          <button className="text-[1.6rem] text-zinc-800 relative cursor-pointer" onClick={()=>handlePanel('cart')}>
             <RiShoppingBag4Fill />
             <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
               1

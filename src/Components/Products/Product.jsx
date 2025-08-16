@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ProductList from "./ProductList";
 import { GoHeartFill } from "react-icons/go";
 
-const Product = ({ searchTerm }) => {
+const Product = ({ searchTerm, addToCart }) => {
   const categories = [
     "All",
     "Mens",
@@ -26,7 +26,7 @@ const Product = ({ searchTerm }) => {
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    return matchesCategory, matchesSearch;
+    return matchesCategory && matchesSearch;
   });
 
   const renderProducts = filteredItems.map((product) => {
@@ -69,7 +69,7 @@ const Product = ({ searchTerm }) => {
               ${product.price.toFixed(2)}
             </span>
           </div>
-          <button className="bg-blue-600 text-white text-lg py-3 w-full rounded-lg cursor-pointer active:bg-blue-800">
+          <button className="bg-blue-600 text-white text-lg py-3 w-full rounded-lg cursor-pointer active:bg-blue-800" onClick={() => addToCart(product)}>
             Add to Cart
           </button>
         </div>
@@ -78,9 +78,9 @@ const Product = ({ searchTerm }) => {
   });
 
   // method for change Tab
-  function changeTab(category) {
-    setActiveTab(category);
-  }
+  // function changeTab(category) {
+  //   setActiveTab(category);
+  // }
   return (
     <section
       id="product-section"
