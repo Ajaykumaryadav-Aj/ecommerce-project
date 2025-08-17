@@ -30,16 +30,29 @@ const Home = () => {
   };
   // Cart And Wishlist show Tab Function
   const handlePanel = (tabName) => {
-    setActivePanel(prev=>(prev === tabName ? null :tabName))
+    setActivePanel((prev) => (prev === tabName ? null : tabName));
   };
 
-  // ClosePanel Tab Function 
-  const handleClose = () => setActivePanel(null)
+  // ClosePanel Tab Function
+  const handleClose = () => setActivePanel(null);
 
   // AddToCart Funtion
-  const AddToCart = (product) => {
-setCart([product])
+  const addToCart = (product) => {
+    const alreadyAdded = cart.find(item=> item.id === product.id);
+    if (alreadyAdded) {
+      alert("Itme is already in the cart")
+      return;
+    }
+    setCart([...cart,product]);
+  };
+
+  // Remove Items
+  const removeItems = (product ) =>{
+    setCart(cart.filter(item=> item.id !== product.id))
   }
+
+
+   
  
 
   return (
@@ -56,11 +69,11 @@ setCart([product])
       <Banner />
 
       {/* Product */}
-      <Product searchTerm={searchTerm} AddToCart={AddToCart} />
+      <Product searchTerm={searchTerm} addToCart={addToCart} />
 
       {/* Cart  */}
 
-      <Cart activePanel={activePanel} handleClose={handleClose} />
+      <Cart activePanel={activePanel} handleClose={handleClose} cart={cart} removeItems={removeItems} />
 
       {/* Wishlist Tab */}
       <Wishlist activePanel={activePanel} handleClose={handleClose} />
