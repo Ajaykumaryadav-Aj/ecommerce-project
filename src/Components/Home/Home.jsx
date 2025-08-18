@@ -5,6 +5,7 @@ import Product from "../Products/Product";
 import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import products from "../Products/ProductList";
+import OrderSummary from "../orderSummary/orderSummary";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,6 +13,16 @@ const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
   const [cart, setCart] = useState([]);
+  const [orderSummary, setOrderSummary] = useState(false);
+
+  // Total Calculations
+  const subtotal = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const shippingFee = totalItems * 2;
+  const orderTotal = subtotal + shippingFee;
 
   useEffect(() => {
     const changeNavbar = () => {
@@ -36,24 +47,40 @@ const Home = () => {
   // ClosePanel Tab Function
   const handleClose = () => setActivePanel(null);
 
+  // QuantityIncrement
+  const quantityIncrement = (product) => {
+    setCart(
+      cart.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  // QuantityDecrement
+  const quantityDecrement = (product) => {
+    setCart(
+      cart.map((item) =>
+        item.id === product.id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
   // AddToCart Funtion
   const addToCart = (product) => {
-    const alreadyAdded = cart.find(item=> item.id === product.id);
+    const alreadyAdded = cart.find((item) => item.id === product.id);
     if (alreadyAdded) {
-      alert("Itme is already in the cart")
+      alert("Itme is already in the cart");
       return;
     }
-    setCart([...cart,product]);
+    setCart([...cart, { ...product, quantity: 1 }]);
   };
 
   // Remove Items
-  const removeItems = (product ) =>{
-    setCart(cart.filter(item=> item.id !== product.id))
-  }
-
-
-   
- 
+  const removeItems = (product) => {
+    setCart(cart.filter((item) => item.id !== product.id));
+  };
 
   return (
     <div>
@@ -63,6 +90,7 @@ const Home = () => {
         setSearchTerm={setSearchTerm}
         isScrolled={isScrolled}
         handlePanel={handlePanel}
+        totalItems={totalItems}
       />
 
       {/* Banner */}
@@ -73,10 +101,29 @@ const Home = () => {
 
       {/* Cart  */}
 
-      <Cart activePanel={activePanel} handleClose={handleClose} cart={cart} removeItems={removeItems} />
+      <Cart
+        activePanel={activePanel}
+        handleClose={handleClose}
+        cart={cart}
+        removeItems={removeItems}
+        quantityIncrement={quantityIncrement}
+        quantityDecrement={quantityDecrement}
+        subtotal={subtotal}
+        shippingFee={shippingFee}
+        orderTotal={orderTotal}
+        setOrderSummary={setOrderSummary}
+      />
 
       {/* Wishlist Tab */}
       <Wishlist activePanel={activePanel} handleClose={handleClose} />
+
+      {/* OrderSummary */}
+     {orderSummary &&  <OrderSummary
+        cart={cart}
+        subtotal={subtotal}
+        shippingFee={shippingFee}
+        orderTotal={orderTotal}
+      />}
     </div>
   );
 };
