@@ -3,13 +3,22 @@ import Logo from "../../assets/logo.png";
 import { IoSearch } from "react-icons/io5";
 import { GoHeartFill } from "react-icons/go";
 import { RiShoppingBag4Fill } from "react-icons/ri";
+import Wishlist from "../Wishlist/Wishlist";
 
-const Navbar = ({ handleScroll, setSearchTerm , isScrolled, handlePanel, totalItems}) => {
-
-
-
+const Navbar = ({
+  handleScroll,
+  setSearchTerm,
+  isScrolled,
+  handlePanel,
+  totalItems,
+  wishlist
+}) => {
   return (
-    <header className={`bg-white fixed top-0 left-0 right-0 z-30 ${isScrolled? 'shadow-lg' : ''}`}>
+    <header
+      className={`bg-white fixed top-0 left-0 right-0 z-30 ${
+        isScrolled ? "shadow-lg" : ""
+      }`}
+    >
       <nav className="max-w-[1300px] px-12 mx-auto h-[14vh] flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex w-15 h-15 bg-zinc-100 rounded-full">
@@ -39,19 +48,27 @@ const Navbar = ({ handleScroll, setSearchTerm , isScrolled, handlePanel, totalIt
 
           {/* {Icons} */}
 
-          <button className="text-[1.6rem] text-zinc-800 relative cursor-pointer" onClick={()=>handlePanel('wishlist')}>
+          <button
+            className="text-[1.6rem] text-zinc-800 relative cursor-pointer"
+            onClick={() => handlePanel("wishlist")}
+          > 
             <GoHeartFill />
-            <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
-              1
-            </span>
+            {wishlist.length > 0 && (
+              <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
+                {wishlist.length}
+              </span>
+            )}
           </button>
-          <button className="text-[1.6rem] text-zinc-800 relative cursor-pointer" onClick={()=>handlePanel('cart')}>
+          <button
+            className="text-[1.6rem] text-zinc-800 relative cursor-pointer"
+            onClick={() => handlePanel("cart")}
+          >
             <RiShoppingBag4Fill />
-          {
-            totalItems > 0 &&   <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
-          {totalItems}
-            </span>
-          }
+            {totalItems > 0 && (
+              <span className="flex justify-center items-center bg-red-600 rounded-full h-5 w-5 text-[14px] absolute top-4 right-3 border-2 border-white">
+                {totalItems}
+              </span>
+            )}
           </button>
         </div>
       </nav>

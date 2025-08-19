@@ -6,6 +6,7 @@ import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import products from "../Products/ProductList";
 import OrderSummary from "../orderSummary/orderSummary";
+import OrderPlace from "../OrderPlace/OrderPlace";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,6 +15,8 @@ const Home = () => {
   const [activePanel, setActivePanel] = useState(null);
   const [cart, setCart] = useState([]);
   const [orderSummary, setOrderSummary] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [wishlist , setWishlist] = useState([]);
 
   // Total Calculations
   const subtotal = cart.reduce(
@@ -77,6 +80,21 @@ const Home = () => {
     setCart([...cart, { ...product, quantity: 1 }]);
   };
 
+  // Wishlist Function
+
+  const addToWishlist = (product) =>{
+
+const isInwishlist = wishlist.some(item=> item.id == product.id);
+if (isInwishlist) {
+  setWishlist(wishlist.filter(item=> item.id !== product.id))
+}else{
+  const addDate = new Date().toLocaleDateString('en-GB')
+  setWishlist([...wishlist,{...product, addDate}])
+}
+
+    
+  }
+
   // Remove Items
   const removeItems = (product) => {
     setCart(cart.filter((item) => item.id !== product.id));
@@ -91,13 +109,14 @@ const Home = () => {
         isScrolled={isScrolled}
         handlePanel={handlePanel}
         totalItems={totalItems}
+        wishlist = {wishlist}
       />
 
       {/* Banner */}
       <Banner />
 
       {/* Product */}
-      <Product searchTerm={searchTerm} addToCart={addToCart} />
+      <Product searchTerm={searchTerm} addToCart={addToCart} addToWishlist={addToWishlist} wishlist={wishlist} />
 
       {/* Cart  */}
 
@@ -115,7 +134,7 @@ const Home = () => {
       />
 
       {/* Wishlist Tab */}
-      <Wishlist activePanel={activePanel} handleClose={handleClose} />
+      <Wishlist activePanel={activePanel} handleClose={handleClose} wishlist={wishlist} addToCart={addToCart}/>
 
       {/* OrderSummary */}
      {orderSummary &&  <OrderSummary
@@ -123,7 +142,14 @@ const Home = () => {
         subtotal={subtotal}
         shippingFee={shippingFee}
         orderTotal={orderTotal}
+        setOrderPlaced={setOrderPlaced}
+        setOrderSummary={setOrderSummary}
+        setCart={setCart}
       />}
+
+
+      {/* Order Placed */}
+     { orderPlaced && <OrderPlace  setOrderPlaced={setOrderPlaced}/>}
     </div>
   );
 };
