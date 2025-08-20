@@ -13,10 +13,16 @@ const Home = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const storeCart = localStorage.getItem("cart");
+    return storeCart ? JSON.parse(storeCart) : [];
+  });
   const [orderSummary, setOrderSummary] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  const [wishlist , setWishlist] = useState([]);
+  const [wishlist, setWishlist] = useState(()=>{
+    const storeWishlist = localStorage.getItem('wishlist');
+    return storeWishlist ? JSON.parse(storeWishlist) :
+[]  });
 
   // Total Calculations
   const subtotal = cart.reduce(
@@ -33,6 +39,18 @@ const Home = () => {
     };
     window.addEventListener("scroll", changeNavbar);
   }, []);
+
+  // Save Items to local Storage
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [cart,wishlist]);
+
+  // // get Item Local storage
+  // const getCart= ()=>{
+  //   const storeCart = localStorage.getItem('cart')
+  //   return storeCart ? JSON.parse(storeCart) :[]
+  // }
 
   // Handle Scrolling
   const handleScroll = () => {
@@ -82,22 +100,24 @@ const Home = () => {
 
   // Wishlist Function
 
-  const addToWishlist = (product) =>{
-
-const isInwishlist = wishlist.some(item=> item.id == product.id);
-if (isInwishlist) {
-  setWishlist(wishlist.filter(item=> item.id !== product.id))
-}else{
-  const addDate = new Date().toLocaleDateString('en-GB')
-  setWishlist([...wishlist,{...product, addDate}])
-}
-
-    
-  }
+  const addToWishlist = (product) => {
+    const isInwishlist = wishlist.some((item) => item.id == product.id);
+    if (isInwishlist) {
+      setWishlist(wishlist.filter((item) => item.id !== product.id));
+    } else {
+      const addDate = new Date().toLocaleDateString("en-GB");
+      setWishlist([...wishlist, { ...product, addDate }]);
+    }
+  };
 
   // Remove Items
   const removeItems = (product) => {
     setCart(cart.filter((item) => item.id !== product.id));
+  };
+
+  // Clear wishlist
+  const clearWishlist = () => {
+    setWishlist([]);
   };
 
   return (
@@ -109,14 +129,19 @@ if (isInwishlist) {
         isScrolled={isScrolled}
         handlePanel={handlePanel}
         totalItems={totalItems}
-        wishlist = {wishlist}
+        wishlist={wishlist}
       />
 
       {/* Banner */}
       <Banner />
 
       {/* Product */}
-      <Product searchTerm={searchTerm} addToCart={addToCart} addToWishlist={addToWishlist} wishlist={wishlist} />
+      <Product
+        searchTerm={searchTerm}
+        addToCart={addToCart}
+        addToWishlist={addToWishlist}
+        wishlist={wishlist}
+      />
 
       {/* Cart  */}
 
@@ -134,22 +159,29 @@ if (isInwishlist) {
       />
 
       {/* Wishlist Tab */}
-      <Wishlist activePanel={activePanel} handleClose={handleClose} wishlist={wishlist} addToCart={addToCart}/>
+      <Wishlist
+        activePanel={activePanel}
+        handleClose={handleClose}
+        wishlist={wishlist}
+        addToCart={addToCart}
+        clearWishlist={clearWishlist}
+      />
 
       {/* OrderSummary */}
-     {orderSummary &&  <OrderSummary
-        cart={cart}
-        subtotal={subtotal}
-        shippingFee={shippingFee}
-        orderTotal={orderTotal}
-        setOrderPlaced={setOrderPlaced}
-        setOrderSummary={setOrderSummary}
-        setCart={setCart}
-      />}
-
+      {orderSummary && (
+        <OrderSummary
+          cart={cart}
+          subtotal={subtotal}
+          shippingFee={shippingFee}
+          orderTotal={orderTotal}
+          setOrderPlaced={setOrderPlaced}
+          setOrderSummary={setOrderSummary}
+          setCart={setCart}
+        />
+      )}
 
       {/* Order Placed */}
-     { orderPlaced && <OrderPlace  setOrderPlaced={setOrderPlaced}/>}
+      {orderPlaced && <OrderPlace setOrderPlaced={setOrderPlaced} />}
     </div>
   );
 };
