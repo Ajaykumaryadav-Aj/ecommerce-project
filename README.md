@@ -1,12 +1,40 @@
-# React + Vite
+# eCommerce Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my eCommerce project! This project allows users to browse products, filter them, add them to the cart, manage the wishlist, and place an order. It uses **localStorage** for saving cart and wishlist data.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Product Filter**: 
+   - Users can filter products by category (Men's, Women's, Kids, etc.) to find products quickly.
 
-## Expanding the ESLint configuration
+2. **Add to Cart**: 
+   - Users can add products to the cart with a single click. The cart is saved in the browser's **localStorage**, so the items remain even after the page reloads.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. **Add to Wishlist**: 
+   - Users can add products to the wishlist for future reference. Like the cart, wishlist is saved in **localStorage**.
+
+4. **Order Summary**: 
+   - After adding items to the cart, users can view a summary of their selected products, along with the total price and other details.
+
+5. **Place Order**: 
+   - Once the user is satisfied with their cart, they can proceed to place an order. This functionality is connected to the order summary page.
+
+6. **localStorage**: 
+   - Both the **Cart** and **Wishlist** are saved in **localStorage**, which means the data persists even after the browser is closed or the page is refreshed.
+
+## Demo Video
+
+Here is a demo video showing how the eCommerce project works:
+
+[Watch the demo video on YouTube](https://youtu.be/-US2rLmZnX4)
+
+![Demo Video Thumbnail](https://img.youtube.com/vi/-US2rLmZnX4/0.jpg)
+
+## Technologies Used
+
+- **React.js**: For building the user interface.
+- **localStorage**: For saving cart and wishlist data.
+- **Tailwind CSS**: For styling the application.
+
+## Project Structure
+
